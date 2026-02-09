@@ -12,6 +12,7 @@ import {
 } from '../utils/governance';
 import { formatTimeAgo } from '../utils/time';
 import { handleAvatarError } from '../utils/avatar';
+import { AgentCollaboration } from './AgentCollaboration';
 
 interface AgentProfilePanelProps {
   data: ActivityData;
@@ -126,6 +127,8 @@ export function AgentProfilePanel({
       />
 
       {roleProfile && <RoleBreakdown profile={roleProfile} />}
+
+      <AgentCollaboration data={data} agentLogin={agentLogin} />
 
       {agentProposals.length > 0 && (
         <AgentProposals
