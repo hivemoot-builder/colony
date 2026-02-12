@@ -979,6 +979,159 @@ describe('buildExternalVisibility', () => {
     );
   });
 
+  it('flags relative twitter:image metadata as invalid', async () => {
+    const baseUrl = 'https://hivemoot.github.io/colony';
+    vi.spyOn(globalThis, 'fetch').mockImplementation(
+      async (input: RequestInfo | URL): Promise<Response> => {
+        const url =
+          typeof input === 'string'
+            ? input
+            : input instanceof URL
+              ? input.toString()
+              : input.url;
+
+        if (url === baseUrl) {
+          return new Response(
+            `<html>
+              <head>
+                <link rel="canonical" href="${baseUrl}/" />
+                <meta property="og:image" content="${baseUrl}/og-image.png" />
+                <meta name="twitter:image" content="/twitter-image.png" />
+                <script type="application/ld+json">{}</script>
+              </head>
+            </html>`,
+            { status: 200 }
+          );
+        }
+        if (url === `${baseUrl}/robots.txt`) {
+          return new Response(
+            `User-agent: *\nSitemap: ${baseUrl}/sitemap.xml`,
+            {
+              status: 200,
+            }
+          );
+        }
+        if (url === `${baseUrl}/sitemap.xml`) {
+          return new Response(
+            '<urlset><url><lastmod>2026-02-11</lastmod></url></urlset>',
+            { status: 200 }
+          );
+        }
+        if (url === `${baseUrl}/data/activity.json`) {
+          return new Response(
+            JSON.stringify({ generatedAt: new Date().toISOString() }),
+            { status: 200, headers: { 'content-type': 'application/json' } }
+          );
+        }
+        if (url === `${baseUrl}/og-image.png`) {
+          return new Response('image-bytes', { status: 200 });
+        }
+        if (url === `${baseUrl}/twitter-image.png`) {
+          return new Response('image-bytes', { status: 200 });
+        }
+
+        return new Response('not found', { status: 404 });
+      }
+    );
+
+    const visibility = await buildExternalVisibility([
+      {
+        owner: 'hivemoot',
+        name: 'colony',
+        url: 'https://github.com/hivemoot/colony',
+        stars: 1,
+        forks: 1,
+        openIssues: 1,
+        homepage: `${baseUrl}/`,
+        topics: REQUIRED_DISCOVERABILITY_TOPICS,
+        description: 'Open-source dashboard for autonomous agent governance',
+      },
+    ]);
+
+    const twitterImageCheck = visibility.checks.find(
+      (c) => c.id === 'deployed-twitter-image'
+    );
+    expect(twitterImageCheck?.ok).toBe(false);
+    expect(twitterImageCheck?.details).toContain(
+      'twitter:image must be an absolute https URL: /twitter-image.png'
+    );
+  });
+
+  it('flags non-https twitter:image metadata as invalid', async () => {
+    const baseUrl = 'https://hivemoot.github.io/colony';
+    vi.spyOn(globalThis, 'fetch').mockImplementation(
+      async (input: RequestInfo | URL): Promise<Response> => {
+        const url =
+          typeof input === 'string'
+            ? input
+            : input instanceof URL
+              ? input.toString()
+              : input.url;
+
+        if (url === baseUrl) {
+          return new Response(
+            `<html>
+              <head>
+                <link rel="canonical" href="${baseUrl}/" />
+                <meta property="og:image" content="${baseUrl}/og-image.png" />
+                <meta name="twitter:image" content="http://cdn.example.com/twitter-image.png" />
+                <script type="application/ld+json">{}</script>
+              </head>
+            </html>`,
+            { status: 200 }
+          );
+        }
+        if (url === `${baseUrl}/robots.txt`) {
+          return new Response(
+            `User-agent: *\nSitemap: ${baseUrl}/sitemap.xml`,
+            {
+              status: 200,
+            }
+          );
+        }
+        if (url === `${baseUrl}/sitemap.xml`) {
+          return new Response(
+            '<urlset><url><lastmod>2026-02-11</lastmod></url></urlset>',
+            { status: 200 }
+          );
+        }
+        if (url === `${baseUrl}/data/activity.json`) {
+          return new Response(
+            JSON.stringify({ generatedAt: new Date().toISOString() }),
+            { status: 200, headers: { 'content-type': 'application/json' } }
+          );
+        }
+        if (url === `${baseUrl}/og-image.png`) {
+          return new Response('image-bytes', { status: 200 });
+        }
+
+        return new Response('not found', { status: 404 });
+      }
+    );
+
+    const visibility = await buildExternalVisibility([
+      {
+        owner: 'hivemoot',
+        name: 'colony',
+        url: 'https://github.com/hivemoot/colony',
+        stars: 1,
+        forks: 1,
+        openIssues: 1,
+        homepage: `${baseUrl}/`,
+        topics: REQUIRED_DISCOVERABILITY_TOPICS,
+        description: 'Open-source dashboard for autonomous agent governance',
+      },
+    ]);
+
+    const twitterImageCheck = visibility.checks.find(
+      (c) => c.id === 'deployed-twitter-image'
+    );
+    expect(twitterImageCheck?.ok).toBe(false);
+    expect(twitterImageCheck?.details).toContain(
+      'twitter:image must be an absolute https URL: http://cdn.example.com/twitter-image.png'
+    );
+  });
+
   it('accepts reversed attribute order for canonical and social image metadata', async () => {
     const baseUrl = 'https://hivemoot.github.io/colony';
     vi.spyOn(globalThis, 'fetch').mockImplementation(

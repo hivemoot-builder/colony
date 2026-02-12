@@ -57,6 +57,15 @@ function normalizeUrlForMatch(value: string): string {
   return value.replace(/\/+$/, '').toLowerCase();
 }
 
+function parseAbsoluteHttpsUrl(raw: string): string {
+  try {
+    const parsed = new URL(raw);
+    return parsed.protocol === 'https:' ? parsed.toString() : '';
+  } catch {
+    return '';
+  }
+}
+
 function extractTagAttributeValue(
   html: string,
   tagName: string,
@@ -286,21 +295,24 @@ async function runChecks(): Promise<CheckResult[]> {
           : 'Missing og:image metadata on deployed homepage',
   });
 
-  const twitterImageRaw = extractTagAttributeValue(
-    deployedRootHtml,
-    'meta',
-    'name',
-    'twitter:image',
-    'content'
-  );
-  let twitterImageUrl = '';
-  if (twitterImageRaw) {
-    try {
-      twitterImageUrl = new URL(twitterImageRaw, `${baseUrl}/`).toString();
-    } catch {
-      twitterImageUrl = '';
-    }
-  }
+  const twitterImageRaw =
+    extractTagAttributeValue(
+      deployedRootHtml,
+      'meta',
+      'name',
+      'twitter:image',
+      'content'
+    ) ||
+    extractTagAttributeValue(
+      deployedRootHtml,
+      'meta',
+      'name',
+      'twitter:image:src',
+      'content'
+    );
+  const twitterImageUrl = twitterImageRaw
+    ? parseAbsoluteHttpsUrl(twitterImageRaw)
+    : '';
   const twitterImageRes = twitterImageUrl
     ? await fetchWithTimeout(twitterImageUrl)
     : null;
@@ -313,7 +325,7 @@ async function runChecks(): Promise<CheckResult[]> {
       : twitterImageUrl
         ? `GET ${twitterImageUrl} returned ${twitterImageRes?.status ?? 'no response'}`
         : twitterImageRaw
-          ? `Invalid twitter:image URL: ${twitterImageRaw}`
+          ? `twitter:image must be an absolute https URL: ${twitterImageRaw}`
           : 'Missing twitter:image metadata on deployed homepage',
   });
 
