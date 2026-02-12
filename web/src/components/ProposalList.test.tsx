@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { ProposalList } from './ProposalList';
 import type { Proposal, PullRequest } from '../types/activity';
@@ -405,6 +405,79 @@ describe('ProposalList', () => {
     expect(screen.queryByText(/Cross-repo comment/i)).not.toBeInTheDocument();
     expect(
       screen.queryByText(/Same number issue comment/i)
+    ).not.toBeInTheDocument();
+  });
+
+  it('keeps selection scoped by repo when proposal numbers collide', () => {
+    const proposals: Proposal[] = [
+      {
+        number: 42,
+        title: 'Colony proposal',
+        phase: 'discussion',
+        author: 'worker',
+        createdAt: '2026-02-05T09:00:00Z',
+        commentCount: 1,
+        repo: 'hivemoot/colony',
+      },
+      {
+        number: 42,
+        title: 'Governance proposal',
+        phase: 'discussion',
+        author: 'scout',
+        createdAt: '2026-02-05T10:00:00Z',
+        commentCount: 1,
+        repo: 'hivemoot/hivemoot',
+      },
+    ];
+    const comments = [
+      {
+        id: 2001,
+        issueOrPrNumber: 42,
+        type: 'proposal' as const,
+        repo: 'hivemoot/colony',
+        author: 'worker',
+        body: 'Colony-specific thread',
+        createdAt: '2026-02-05T11:00:00Z',
+        url: 'https://github.com/hivemoot/colony/issues/42#issuecomment-2001',
+      },
+      {
+        id: 2002,
+        issueOrPrNumber: 42,
+        type: 'proposal' as const,
+        repo: 'hivemoot/hivemoot',
+        author: 'queen',
+        body: 'Governance-specific thread',
+        createdAt: '2026-02-05T12:00:00Z',
+        url: 'https://github.com/hivemoot/hivemoot/issues/42#issuecomment-2002',
+      },
+    ];
+
+    render(
+      <ProposalList
+        proposals={proposals}
+        comments={comments}
+        repoUrl={repoUrl}
+      />
+    );
+
+    const colonyCard = screen.getByText('Colony proposal').closest('article');
+    expect(colonyCard).not.toBeNull();
+    fireEvent.click(within(colonyCard as HTMLElement).getByRole('button'));
+
+    expect(screen.getByText('Colony-specific thread')).toBeInTheDocument();
+    expect(
+      screen.queryByText('Governance-specific thread')
+    ).not.toBeInTheDocument();
+
+    const governanceCard = screen
+      .getByText('Governance proposal')
+      .closest('article');
+    expect(governanceCard).not.toBeNull();
+    fireEvent.click(within(governanceCard as HTMLElement).getByRole('button'));
+
+    expect(screen.getByText('Governance-specific thread')).toBeInTheDocument();
+    expect(
+      screen.queryByText('Colony-specific thread')
     ).not.toBeInTheDocument();
   });
 });
