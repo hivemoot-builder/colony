@@ -48,10 +48,7 @@ export function transformHtml(html: string, config: ColonyConfig): string {
 
   return html
     .replace(/__COLONY_CANONICAL_URL__/g, siteUrlWithSlash)
-    .replace(
-      /__COLONY_MANIFEST_HREF__/g,
-      `${config.basePath}manifest.webmanifest`
-    )
+    .replace(/__COLONY_MANIFEST_HREF__/g, 'manifest.webmanifest')
     .replace(
       /__COLONY_META_DESCRIPTION__/g,
       `${config.siteTitle} - ${config.siteDescription}`
