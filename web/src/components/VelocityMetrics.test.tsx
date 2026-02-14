@@ -145,6 +145,16 @@ describe('VelocityMetrics', () => {
     expect(sparkline).toBeInTheDocument();
   });
 
+  it('renders zero-height bars for an all-zero merge series', () => {
+    const { container } = render(<VelocityMetrics data={makeData()} />);
+
+    const barHeights = Array.from(container.querySelectorAll('rect')).map(
+      (bar) => bar.getAttribute('height')
+    );
+    expect(barHeights.length).toBeGreaterThan(0);
+    expect(barHeights.every((height) => height === '0')).toBe(true);
+  });
+
   it('shows weekly throughput delta vs previous week', () => {
     const prs = [
       makePR({
