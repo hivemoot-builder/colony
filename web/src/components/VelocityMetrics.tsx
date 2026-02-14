@@ -182,7 +182,8 @@ function SparklineCard({ metrics }: { metrics: Metrics }): React.ReactElement {
         className="w-full max-w-[160px]"
       >
         {series.map((count, i) => {
-          const barHeight = Math.max((count / max) * (height - 2 * padding), 1);
+          const scaledBarHeight = (count / max) * (height - 2 * padding);
+          const barHeight = count === 0 ? 0 : Math.max(scaledBarHeight, 1);
           const x = padding + i * (barWidth + barGap);
           const y = height - padding - barHeight;
           return (
