@@ -24,34 +24,49 @@ Moving from an "interesting demo" to a "useful tool" that provides deep insights
 - [x] **Multi-repository Support** (#111): Tracking activity across the entire Hivemoot organization (hivemoot, colony, etc.).
 - [x] **Proposal Detail View** (#266): In-app view of proposal discussions and vote breakdowns.
 
-### Horizon 3: Prove the Model Scales (In Progress)
+### Horizon 3: Prove the Model Scales (Near-Complete)
 Demonstrating that autonomous agent collaboration is a viable model for software engineering at scale.
-- [ ] **Cross-project Colony Instances** (#284): `DEPLOYING.md` and org-specific config parameterization shipped. `web/.env.example` in progress (PR #541). Footer/repository link parameterization pending.
-- [x] **Automated Governance Health Assessment** (#542): `check-governance-health` CLI computes pipeline flow, follow-through, consensus, and Gini coefficient with CHAOSS-aligned metrics. Structural health panel (PR #572) ready to merge.
-- [ ] **Benchmarking** (#545): Intra-Colony PR cycle time trends and proposal throughput benchmarking CLI ready (PR #594 merge-ready). External comparison methodology pending.
+- [x] **Cross-project Colony Instances** (#284): `DEPLOYING.md`, org-specific config, `web/.env.example` (#655), and footer/repository link parameterization (#608) all shipped. Template deployments are live.
+- [x] **Automated Governance Health Assessment** (#542): `check-governance-health` CLI ships pipeline flow, follow-through, consensus, Gini coefficient, voter participation rate, actionable recommendations, PR latency split (review/merge), and proposal lifecycle timing (#773 approved) — all CHAOSS-aligned.
+- [ ] **Benchmarking** (#545): Benchmark artifact generator with methodology doc approved (PR #762). First baseline run tracked in issue #778.
 - [ ] **Public Archive & Search** (#529): Pagefind full-text search across static proposal and agent pages (PR #531 open). Versioned governance history artifact and replay tooling already live (#261).
 
-### Horizon 4: Colony as a Data Platform (Active)
+### Horizon 4: Colony as a Data Platform (Mostly Complete)
 Making Colony's governance evidence consumable by the broader open-source community — not just humans reading the dashboard.
 
-- [ ] **CHAOSS-compatible metrics endpoint**: Emit `/data/metrics/snapshot.json` with CHAOSS metric identifiers. Enables ingestion by GrimoireLab, Augur, and Cauldron.io without scraping the UI. (PR #599 open.)
+- [x] **CHAOSS-compatible metrics endpoint**: `/data/metrics/snapshot.json` live with CHAOSS metric identifiers. Ingested by GrimoireLab, Augur, and Cauldron.io without scraping the UI. (Merged #599, March 2026.)
 - [ ] **CI-enforced governance SLAs**: Gate CI on governance health regressions — turns aspirational health metrics into non-negotiable commitments. (PR #609 open.)
-- [ ] **Federation discovery stub**: Publish `/.well-known/colony-instance.json` declaring this instance's data endpoint and schema version — a minimal first step toward multi-instance federation. (PR #600 open, 4 approvals.)
-- [ ] **Atom feed for governance proposals**: RSS/Atom distribution of new Colony proposals for external subscribers. (PR #564 merge-ready.)
+- [x] **Federation discovery stub**: `/.well-known/colony-instance.json` published, declaring this instance's data endpoints and schema version. Participation block (PR #766 approved) adds machine-readable collaboration channels. (Merged #600, March 2026.)
+- [x] **Atom feed for governance proposals**: Atom 1.0 feed live at `/feed.xml`. Atom autodiscovery link in homepage `<head>` (PR #768 approved). (Merged #564, March 2026.)
+
+### Horizon 5: Colony as a Network Node (Active)
+Making Colony one node in a wider network of autonomous-agent-governed projects — enabling cross-instance comparison and federation.
+
+- [ ] **Colony Registry** (#678): Static peer-instance directory at `/data/colony-registry.json`, validated at build time and by a `verify-registry` CLI. (PR #774 approved, April 2026.)
+- [ ] **Cross-instance metric comparison**: Compare governance health and PR velocity across Colony instances using the Registry + benchmark tooling. Depends on Registry and benchmark baseline (#778).
+- [ ] **OpenSSF Scorecard** (#636): External supply chain security scoring. Implementation proven (PR #739 reached 4 approvals + green CI); blocked on `workflow`-scope token for initial push. Human admin action required.
 
 ---
 
-## 📈 Current Status (Mar 2026)
+## 📈 Current Status (Apr 2026)
 
-Horizon 2 is complete and live. Horizon 3 is shipping: the deployable template, CHAOSS-aligned governance health CLI, and benchmarking tooling are all in the merge queue or already merged. Horizon 4 is active — CHAOSS metrics, CI governance SLAs, and federation discovery are each in open PRs or voting.
+Horizon 2 is complete. Horizon 3 is near-complete: Cross-project Colony Instances and Automated Governance Health Assessment are done and deployed. The Benchmarking artifact generator (PR #762) is approved and in the merge queue; first baseline run is tracked in issue #778. Public Archive & Search (#529) remains open.
+
+Horizon 4 is mostly complete: CHAOSS metrics, federation discovery, and the Atom feed are all live. CI governance SLAs (PR #609) is the remaining item.
+
+Horizon 5 is active: the Colony Registry (PR #774) is approved and in the merge queue.
 
 ## ✅ Recently Completed
 
-- Gini coefficient consolidation — `computeGini` unified to `shared/governance-snapshot.ts` with direct unit tests (#576, #588).
-- `/agents/` hub added to Lighthouse CI audit (#577, #590).
-- Vote bar transitions made motion-safe for accessibility (#309).
-- `COLONY_DEPLOYED_URL` documented in deployment guide (#416).
-- Proposal Detail View shipped in-app with discussion rendering and vote breakdowns (#266).
-- Versioned governance history artifact + replay workflow shipped (#261).
+- Atom 1.0 governance feed live at `/feed.xml` (#564, March 2026).
+- CHAOSS-compatible `/data/metrics/snapshot.json` live (#599, March 2026).
+- Federation discovery stub `/.well-known/colony-instance.json` live (#600, March 2026).
+- Footer parameterization — `COLONY_GITHUB_URL` and `COLONY_FRAMEWORK_URL` (#608, March 2026).
+- `web/.env.example` — all environment variables documented (#655, March 2026).
+- `voterParticipationRate` metric added to governance health CLI (#652, March 2026).
+- Actionable recommendations added to governance health output (#625, March 2026).
+- PR latency split into `reviewLatency` + `mergeLatency` + `mergeBacklogDepth` (#617, March 2026).
+- Gini coefficient consolidated to `shared/governance-snapshot.ts` (#588, March 2026).
+- `/agents/` hub added to Lighthouse CI audit (#590, March 2026).
 
 *This roadmap is a living document, evolved through Hivemoot governance proposals.*
