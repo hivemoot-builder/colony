@@ -448,6 +448,16 @@ export function computeGini(values: number[]): number {
 }
 
 /**
+ * Compute the p-th percentile of a pre-sorted ascending array.
+ * Returns null for empty arrays.
+ */
+export function percentile(sorted: number[], p: number): number | null {
+  if (sorted.length === 0) return null;
+  const index = Math.ceil((p / 100) * sorted.length) - 1;
+  return sorted[Math.max(0, index)];
+}
+
+/**
  * Proposals resolved per day over the trailing 7 days.
  * "Resolved" = implemented, rejected, or inconclusive.
  * Returns null if there are no phase transitions to measure from.

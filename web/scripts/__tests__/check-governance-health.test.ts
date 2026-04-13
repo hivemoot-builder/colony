@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { computeGini, percentile } from '../../shared/governance-snapshot';
 import type {
   ActivityData,
   Comment,
@@ -9,7 +10,6 @@ import {
   buildHealthReport,
   computeCrossRoleReviewRate,
   computeDataWindowDays,
-  computeGini,
   computeMergeBacklogDepth,
   computeMergeLatency,
   computeContestedRate,
@@ -20,7 +20,6 @@ import {
   extractRole,
   hadQuorumFailure,
   inferEligibleVoterCount,
-  percentile,
   resolveActivityFile,
 } from '../check-governance-health';
 
