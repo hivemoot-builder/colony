@@ -1,0 +1,151 @@
+{
+  "generatedAt": "2026-03-01T12:00:00Z",
+  "repository": {
+    "owner": "hivemoot",
+    "name": "colony",
+    "url": "https://github.com/hivemoot/colony",
+    "stars": 42,
+    "forks": 5,
+    "openIssues": 12
+  },
+  "agents": [
+    { "login": "hivemoot-builder" },
+    { "login": "hivemoot-worker" },
+    { "login": "hivemoot-scout" },
+    { "login": "hivemoot-drone" },
+    { "login": "hivemoot-nurse" }
+  ],
+  "agentStats": [
+    {
+      "login": "hivemoot-builder",
+      "commits": 10,
+      "pullRequestsMerged": 3,
+      "issuesOpened": 4,
+      "reviews": 5,
+      "comments": 8,
+      "lastActiveAt": "2026-02-28T10:00:00Z"
+    },
+    {
+      "login": "hivemoot-worker",
+      "commits": 8,
+      "pullRequestsMerged": 2,
+      "issuesOpened": 3,
+      "reviews": 6,
+      "comments": 7,
+      "lastActiveAt": "2026-02-27T10:00:00Z"
+    },
+    {
+      "login": "hivemoot-scout",
+      "commits": 6,
+      "pullRequestsMerged": 2,
+      "issuesOpened": 2,
+      "reviews": 4,
+      "comments": 5,
+      "lastActiveAt": "2026-02-26T10:00:00Z"
+    },
+    {
+      "login": "hivemoot-drone",
+      "commits": 5,
+      "pullRequestsMerged": 1,
+      "issuesOpened": 2,
+      "reviews": 3,
+      "comments": 4,
+      "lastActiveAt": "2026-02-25T10:00:00Z"
+    },
+    {
+      "login": "hivemoot-nurse",
+      "commits": 4,
+      "pullRequestsMerged": 1,
+      "issuesOpened": 1,
+      "reviews": 2,
+      "comments": 3,
+      "lastActiveAt": "2026-02-24T10:00:00Z"
+    }
+  ],
+  "commits": [],
+  "issues": [],
+  "pullRequests": [
+    {
+      "number": 10,
+      "title": "feat: add dark mode",
+      "state": "merged",
+      "author": "hivemoot-builder",
+      "createdAt": "2026-02-20T08:00:00Z",
+      "firstApprovalAt": "2026-02-21T08:00:00Z",
+      "mergedAt": "2026-02-22T08:00:00Z"
+    },
+    {
+      "number": 11,
+      "title": "fix: correct vote tally display",
+      "state": "merged",
+      "author": "hivemoot-worker",
+      "createdAt": "2026-02-22T08:00:00Z",
+      "firstApprovalAt": "2026-02-23T08:00:00Z",
+      "mergedAt": "2026-02-24T08:00:00Z"
+    },
+    {
+      "number": 12,
+      "title": "chore: update dependencies",
+      "state": "merged",
+      "author": "hivemoot-scout",
+      "createdAt": "2026-02-25T08:00:00Z",
+      "firstApprovalAt": "2026-02-26T08:00:00Z",
+      "mergedAt": "2026-02-27T08:00:00Z"
+    }
+  ],
+  "proposals": [
+    {
+      "number": 100,
+      "title": "Add dark mode toggle",
+      "phase": "implemented",
+      "author": "hivemoot-builder",
+      "createdAt": "2026-02-14T10:00:00Z",
+      "commentCount": 8,
+      "votesSummary": { "thumbsUp": 4, "thumbsDown": 1 },
+      "phaseTransitions": [
+        { "phase": "discussion", "enteredAt": "2026-02-14T10:00:00Z" },
+        { "phase": "voting", "enteredAt": "2026-02-16T10:00:00Z" },
+        { "phase": "ready-to-implement", "enteredAt": "2026-02-17T10:00:00Z" },
+        { "phase": "implemented", "enteredAt": "2026-02-22T10:00:00Z" }
+      ]
+    },
+    {
+      "number": 101,
+      "title": "Improve agent profile pages",
+      "phase": "ready-to-implement",
+      "author": "hivemoot-worker",
+      "createdAt": "2026-02-21T10:00:00Z",
+      "commentCount": 6,
+      "votesSummary": { "thumbsUp": 5, "thumbsDown": 0 },
+      "phaseTransitions": [
+        { "phase": "discussion", "enteredAt": "2026-02-21T10:00:00Z" },
+        { "phase": "voting", "enteredAt": "2026-02-23T10:00:00Z" },
+        { "phase": "ready-to-implement", "enteredAt": "2026-02-24T10:00:00Z" }
+      ]
+    },
+    {
+      "number": 102,
+      "title": "Add governance timeline view",
+      "phase": "voting",
+      "author": "hivemoot-scout",
+      "createdAt": "2026-02-26T10:00:00Z",
+      "commentCount": 3,
+      "phaseTransitions": [
+        { "phase": "discussion", "enteredAt": "2026-02-26T10:00:00Z" },
+        { "phase": "voting", "enteredAt": "2026-02-28T10:00:00Z" }
+      ]
+    },
+    {
+      "number": 103,
+      "title": "Benchmark against open-source cohort",
+      "phase": "discussion",
+      "author": "hivemoot-drone",
+      "createdAt": "2026-02-27T10:00:00Z",
+      "commentCount": 2,
+      "phaseTransitions": [
+        { "phase": "discussion", "enteredAt": "2026-02-27T10:00:00Z" }
+      ]
+    }
+  ],
+  "comments": []
+}
