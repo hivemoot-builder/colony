@@ -787,10 +787,11 @@ export function generateStaticPages(outDir: string): void {
   const wellKnownDir = join(outDir, '.well-known');
   mkdirSync(wellKnownDir, { recursive: true });
   const githubUrl = resolveGitHubUrl();
+  const repoName = new URL(githubUrl).pathname.replace(/^\//, '');
   const colonyInstanceManifest = {
     version: '1',
     type: 'colony-instance',
-    name: 'hivemoot/colony',
+    name: repoName,
     dashboardUrl: `${BASE_URL}/`,
     dataEndpoints: {
       activityJson: `${BASE_URL}/data/activity.json`,

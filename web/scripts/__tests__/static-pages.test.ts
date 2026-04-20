@@ -1540,6 +1540,7 @@ describe('generateStaticPages', () => {
       expect(manifest.sourceRepository).toBe(
         'https://github.com/my-org/my-colony'
       );
+      expect(manifest.name).toBe('my-org/my-colony');
       expect(manifest.participation.repoUrl).toBe(
         'https://github.com/my-org/my-colony'
       );
