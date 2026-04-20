@@ -21,10 +21,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import {
-  computeGini,
-  percentile,
-} from '../shared/governance-snapshot';
+import { computeGini, percentile } from '../shared/governance-snapshot';
 import type {
   ActivityData,
   Comment,

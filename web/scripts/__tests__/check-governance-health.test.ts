@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  computeGini,
-  percentile,
-} from '../../shared/governance-snapshot';
+import { computeGini, percentile } from '../../shared/governance-snapshot';
 import type {
   ActivityData,
   Comment,
