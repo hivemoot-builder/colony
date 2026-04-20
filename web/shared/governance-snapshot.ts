@@ -432,6 +432,16 @@ function computeConsensusScore(proposals: Proposal[]): number {
   return Math.min(25, voteScore + diversityScore + discussionScore);
 }
 
+/**
+ * Compute the p-th percentile of a pre-sorted ascending array.
+ * Returns null for empty arrays.
+ */
+export function percentile(sorted: number[], p: number): number | null {
+  if (sorted.length === 0) return null;
+  const index = Math.ceil((p / 100) * sorted.length) - 1;
+  return sorted[Math.max(0, index)];
+}
+
 /** Gini coefficient for distribution analysis. Returns 0-1. */
 export function computeGini(values: number[]): number {
   if (values.length <= 1) return 0;

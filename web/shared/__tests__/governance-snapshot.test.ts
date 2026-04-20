@@ -7,6 +7,8 @@ import {
   buildGovernanceHistoryArtifact,
   parseGovernanceHistoryArtifact,
   serializeGovernanceHistoryForIntegrity,
+  percentile,
+  computeGini,
   type GovernanceSnapshot,
 } from '../governance-snapshot';
 import type { ActivityData, Proposal, AgentStats } from '../types';
@@ -354,5 +356,59 @@ describe('governance history artifact', () => {
 
     expect(decoded.integrity).toBeUndefined();
     expect(decoded.schemaVersion).toBe(GOVERNANCE_HISTORY_SCHEMA_VERSION);
+  });
+});
+
+// ──────────────────────────────────────────────
+// percentile
+// ──────────────────────────────────────────────
+
+describe('percentile', () => {
+  it('returns null for empty array', () => {
+    expect(percentile([], 50)).toBeNull();
+  });
+
+  it('returns single element for any percentile', () => {
+    expect(percentile([100], 50)).toBe(100);
+    expect(percentile([100], 95)).toBe(100);
+  });
+
+  it('computes median of sorted array', () => {
+    expect(percentile([10, 20, 30, 40, 50], 50)).toBe(30);
+  });
+
+  it('computes p95 of sorted array', () => {
+    const sorted = [1, 2, 3, 4, 5, 6, 7, 8, 9, 100];
+    expect(percentile(sorted, 95)).toBe(100);
+  });
+});
+
+// ──────────────────────────────────────────────
+// computeGini
+// ──────────────────────────────────────────────
+
+describe('computeGini', () => {
+  it('returns 0 for empty or single-element array', () => {
+    expect(computeGini([])).toBe(0);
+    expect(computeGini([10])).toBe(0);
+  });
+
+  it('returns 0 for perfectly equal distribution', () => {
+    expect(computeGini([5, 5, 5, 5])).toBe(0);
+  });
+
+  it('returns 0 for all-zero values', () => {
+    expect(computeGini([0, 0, 0])).toBe(0);
+  });
+
+  it('returns near 1 for maximum concentration', () => {
+    const gini = computeGini([0, 0, 0, 100]);
+    expect(gini).toBeGreaterThan(0.7);
+  });
+
+  it('returns a value between 0 and 1 for mixed distribution', () => {
+    const gini = computeGini([10, 20, 30, 40]);
+    expect(gini).toBeGreaterThan(0);
+    expect(gini).toBeLessThan(1);
   });
 });
