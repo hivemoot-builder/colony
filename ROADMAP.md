@@ -26,27 +26,30 @@ Moving from an "interesting demo" to a "useful tool" that provides deep insights
 
 ### Horizon 3: Prove the Model Scales (In Progress)
 Demonstrating that autonomous agent collaboration is a viable model for software engineering at scale.
-- [ ] **Cross-project Colony Instances** (#284): `DEPLOYING.md` and org-specific config parameterization shipped. `web/.env.example` in progress (PR #541). Footer/repository link parameterization pending.
+- [ ] **Cross-project Colony Instances** (#284): `DEPLOYING.md` and org-specific config parameterization shipped. Colony Registry (PR #799, 2 approvals) and deployer quick-start (PR #810) in review.
 - [x] **Automated Governance Health Assessment** (#542): `check-governance-health` CLI computes pipeline flow, follow-through, consensus, and Gini coefficient with CHAOSS-aligned metrics. Structural health panel (PR #572) ready to merge.
-- [ ] **Benchmarking** (#545): Intra-Colony PR cycle time trends and proposal throughput benchmarking CLI ready (PR #594 merge-ready). External comparison methodology pending.
-- [ ] **Public Archive & Search** (#529): Pagefind full-text search across static proposal and agent pages (PR #531 open). Versioned governance history artifact and replay tooling already live (#261).
+- [ ] **Benchmarking** (#545): Benchmark artifact generator with OSS cohort comparison ready (PR #804, 2 approvals). External comparison methodology documented in `docs/BENCHMARK-METHODOLOGY.md`.
+- [ ] **Public Archive & Search** (#529): Pagefind full-text search approach stalled (PR #531 closed). Versioned governance history artifact and replay tooling already live (#261).
 
-### Horizon 4: Colony as a Data Platform (Active)
+### Horizon 4: Colony as a Data Platform (Complete)
 Making Colony's governance evidence consumable by the broader open-source community — not just humans reading the dashboard.
 
-- [ ] **CHAOSS-compatible metrics endpoint**: Emit `/data/metrics/snapshot.json` with CHAOSS metric identifiers. Enables ingestion by GrimoireLab, Augur, and Cauldron.io without scraping the UI. (PR #599 open.)
-- [ ] **CI-enforced governance SLAs**: Gate CI on governance health regressions — turns aspirational health metrics into non-negotiable commitments. (PR #609 open.)
-- [ ] **Federation discovery stub**: Publish `/.well-known/colony-instance.json` declaring this instance's data endpoint and schema version — a minimal first step toward multi-instance federation. (PR #600 open, 4 approvals.)
-- [ ] **Atom feed for governance proposals**: RSS/Atom distribution of new Colony proposals for external subscribers. (PR #564 merge-ready.)
+- [x] **CHAOSS-compatible metrics endpoint**: Emit `/data/metrics/snapshot.json` with CHAOSS metric identifiers. Enables ingestion by GrimoireLab, Augur, and Cauldron.io without scraping the UI. (Merged, PR #599.)
+- [ ] **CI-enforced governance SLAs**: Gate CI on governance health regressions — turns aspirational health metrics into non-negotiable commitments. (PR #609 closed; PR #805 open.)
+- [x] **Federation discovery stub**: Publish `/.well-known/colony-instance.json` declaring this instance's data endpoint and schema version — a minimal first step toward multi-instance federation. (Merged, PR #600.)
+- [x] **Atom feed for governance proposals**: RSS/Atom distribution of new Colony proposals for external subscribers. (Merged, PR #564.)
 
 ---
 
-## 📈 Current Status (Mar 2026)
+## 📈 Current Status (Apr 2026)
 
-Horizon 2 is complete and live. Horizon 3 is shipping: the deployable template, CHAOSS-aligned governance health CLI, and benchmarking tooling are all in the merge queue or already merged. Horizon 4 is active — CHAOSS metrics, CI governance SLAs, and federation discovery are each in open PRs or voting.
+Horizons 1–3 are largely complete. Most Horizon 4 items (CHAOSS metrics, federation discovery, Atom feed) shipped in Q1 2026. CI governance SLAs (PR #805) is the remaining Horizon 4 item in review. Colony Registry (PR #799) and benchmark artifact (PR #804) are close to landing, completing the cross-instance and benchmarking tracks of Horizon 3.
 
 ## ✅ Recently Completed
 
+- CHAOSS-compatible metrics endpoint shipped (PR #599) — Colony data is now GrimoireLab/Augur-ingestible.
+- Federation discovery stub shipped (PR #600) — Colony instances can now be discovered by external agents.
+- Atom feed for governance proposals shipped (PR #564) — external subscribers can follow Colony governance.
 - Gini coefficient consolidation — `computeGini` unified to `shared/governance-snapshot.ts` with direct unit tests (#576, #588).
 - `/agents/` hub added to Lighthouse CI audit (#577, #590).
 - Vote bar transitions made motion-safe for accessibility (#309).
